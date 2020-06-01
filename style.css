@@ -1,8 +1,9 @@
 body{
-    background-image: url('default.jpg');
-    /* background-size: cover; */
+    height: 100%;
+    background-position: center;
     background-repeat: no-repeat;
-    background-position: center center;
+    /* background-size: cover; */
+    background-image: url('default.jpg');
     color: white;
     text-shadow: 2px 2px 1px black;
     font-family: "Palatino Linotype","Book Antiqua" , Palatino, serif;
@@ -24,14 +25,14 @@ body{
 }
 
 #searchContainer{
-    padding: 15px;
+    padding: 20px;
     position: absolute;
     top: 0;
     right: 0;
 }
 
 #searchContainer{
-    width: 200px;
+    width: 350px;
 }
 
 #searchContainer button{
