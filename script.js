@@ -17,12 +17,23 @@ function getSearchMethod(searchTerm) {
 
 function searchWeather(searchTerm) {
     getSearchMethod(searchTerm);
-    fetch(`http://api.openweathermap.org/data/2.5/weather?${searchMethod}=${searchTerm}&appid=${appId}&units=${units}`)
-        .then(result => {
-            return result.json();
-        }).then(result => {
-            init(result);
-        });
+    if (location.protocol === 'http:') {
+        fetch(`http://api.openweathermap.org/data/2.5/weather?${searchMethod}=${searchTerm}&appid=${appId}&units=${units}`)
+            .then(result => {
+                return result.json();
+            }).then(result => {
+                init(result);
+            });
+    }
+    else {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?${searchMethod}=${searchTerm}&appid=${appId}&units=${units}`)
+            .then(result => {
+                return result.json();
+            }).then(result => {
+                init(result);
+            });
+    }
+
 
 }
 
@@ -57,8 +68,8 @@ function init(resultFromServer) {
     let cityHeader = document.getElementById('cityHeader');
     let weatherIcon = document.querySelector('.iconImg');
 
-    weatherIcon.src = 'http://openweathermap.org/img/w/'+ resultFromServer.weather[0].icon + '.png';
-    
+    weatherIcon.src = 'http://openweathermap.org/img/w/' + resultFromServer.weather[0].icon + '.png';
+
 
     let resultDescription = resultFromServer.weather[0].description;
     weatherDescriptionHeader.innerText = resultDescription.charAt(0).toUpperCase() + resultDescription.slice(1);
@@ -71,13 +82,13 @@ function init(resultFromServer) {
     setPositionForWeatherInfo();
 }
 
-function setPositionForWeatherInfo(){
+function setPositionForWeatherInfo() {
     let weatherContainer = document.getElementById('weatherContainer');
     let weatherContainerHeight = weatherContainer.clientHeight;
     let weatherContainerWidth = weatherContainer.clientWidth;
 
-    weatherContainer.style.left =  `calc(50% - ${weatherContainerWidth/2}px)`;
-    weatherContainer.style.top = `calc(50% - ${weatherContainerHeight/2}px)`;
+    weatherContainer.style.left = `calc(50% - ${weatherContainerWidth / 2}px)`;
+    weatherContainer.style.top = `calc(50% - ${weatherContainerHeight / 2}px)`;
     weatherContainer.style.visibility = 'visible';
 }
 
@@ -85,5 +96,14 @@ document.getElementById("searchBtn").addEventListener('click', () => {
     let searchTerm = document.getElementById('searchInput').value;
     if (searchTerm) {
         searchWeather(searchTerm);
+    }
+});
+
+window.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') {
+        let searchTerm = document.getElementById('searchInput').value;
+        if (searchTerm) {
+            searchWeather(searchTerm);
+        }
     }
 });
